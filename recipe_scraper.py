@@ -4,17 +4,22 @@
 
 from bs4 import BeautifulSoup
 from urllib import request
+# regex library
+import re
 
 with request.urlopen("http://www.geniuskitchen.com/recipe/best-banana-bread-2886") as f:
     # constructor takes a string and parser choice as args.
     soup = BeautifulSoup(f, "html.parser")
 
-# print(soup.prettify())
+# print(soup.prettify())fdfds
 
 # get ingredients from 'extras' div.
 # TODO: wrangle this string mess into an actual python list of ingredients.
 ingredients = soup.find("div", class_ = "extras").input["value"]
-print(ingredients)
+# regex defining everything that falls between double "", not including other ".
+pattern = re.compile('"[^"]*"')
+cleaned_ingredients = pattern.findall(ingredients)
+# print(cleaned_ingredients)
 
 # time, yield, servings - need to ignore header and get to text.
 # TODO: make this less clunky.
